@@ -19,8 +19,12 @@ Route::get('/dbview', function() {
   return view('DBcon');
 });
 
+Route::get('/signin', 'AuthController@signin');
+
 Route::get('/authorize', 'AuthController@gettoken');
 
-Route::get('/dbedit', function() {
-	return view('DBEdit');
-});
+Route::get('/dbedit', array('as' => 'dbedit', function() {
+  return view('DBEdit');
+}));
+
+#Route::get('/dbedit', 'AuthController.php@printtoken')->name('dbedit');

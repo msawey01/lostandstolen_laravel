@@ -23,6 +23,7 @@
       <div class="container">
 	       <h1 class="display-4">National Enabling Programme</h1>
 	       <p class="lead">Lost and stolen database</p>
+		   <a class="btn btn-success btn-lg" href="/" role="button">Return Home</a>
       </div>
     </div>
 

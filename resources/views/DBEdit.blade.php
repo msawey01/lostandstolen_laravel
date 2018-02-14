@@ -24,6 +24,13 @@
 	  <h1 class="display-4">National Enabling Programme</h1>
 	  <p class="lead">Lost and stolen database</p>
 	  <p class="lead">Edit page</p>
+	  <a class="btn btn-success btn-lg" href="/" role="button">Return Home</a>
+	  <p class="lead"><?=$_GET['token']?></p>
+	  <p class="lead"><?=$_GET['username']?></p>
+	  <p class="lead"><?=$_GET['prop']?></p>
+	  <?php
+		
+	  ?>
     </div>
 
 

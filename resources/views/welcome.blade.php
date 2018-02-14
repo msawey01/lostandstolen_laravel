@@ -28,7 +28,7 @@
 	  	<hr>
 	  	<p class="lead">
 	  	  <a class="btn btn-success btn-lg" href="dbview/" role="button">View Database</a>
-		  <a class="btn btn-accesstoken btn-lg" href="authorize/" role="button">Edit Database</a>
+		  <a class="btn btn-success btn-lg" href="signin/" role="button">Eddit Database</a>
 		</p>
 	  </div>
 

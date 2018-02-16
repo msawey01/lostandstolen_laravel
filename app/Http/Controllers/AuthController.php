@@ -11,11 +11,15 @@ class AuthController extends Controller
 
 public function gettoken()
 {
+	echo '1';
   if (session_status() == PHP_SESSION_NONE) {
+	  echo '2';
     session_start();
   }
   // Authorization code should be in the "code" query param
+  echo '3';
   if (isset($_GET['code'])) {
+	  echo '4';
     // Check that state matches
 	print_r(array_keys($_SESSION));
     if (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth_state'])) {
@@ -69,7 +73,7 @@ public function gettoken()
 
 #		echo $groupIds;
 		// Redirect back to mail page
-//		return redirect()->route('dbedit', ['token' => $accessToken->getToken(), 'username' => $userName, 'prop' => $properties['id']]);
+		return redirect()->route('dbedit', ['token' => $accessToken->getToken(), 'username' => $userName, 'prop' => $properties['id']]);
     }
     catch (League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
       exit('ERROR getting tokens: '.$e->getMessage());

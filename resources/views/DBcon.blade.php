@@ -36,14 +36,28 @@
             <th scope="col">Description</th>
             <th scope="col">Date Found</th>
             <th scope="col">Location Found</th>
-            <th scope="col">Collected By</th>
-            <th scope="col">Date Collected</th>
           </tr>
         </thead>
         <tbody>
 
-		<?php
-			$user = 'remote';
+		<div id="items">
+		  <?php
+			$items = DB::table('lostitem')->get();
+
+			foreach ($items->all() as $item)
+			{
+				echo "<tr>\n";
+				echo " <th scope='row'> ".$item->item."</th>\n";
+				echo " <td> ".$item->crn."</td>\n";
+				echo " <td> ".$item->description."</td>\n";
+				echo " <td> ".$item->date_found."</td>\n";
+				echo " <td> ".$item->location_found."</td>\n";
+				echo "</tr>\n";
+			}
+		  ?>
+	  </div>
+ 		<?php
+/* 			$user = 'remote';
 			$pw = 'f@kePass1956';
 			$db = 'mysql';
 			$mysqli = new mysqli('40.71.5.113', $user, $pw, $db) or die("unable to connect");
@@ -78,8 +92,8 @@
 
 			mysqli_close($mysqli);
 				#echo "connection closed!";
-		?>
-
+ */		?>
+ 
         </tbody>
       </table>
     </div>

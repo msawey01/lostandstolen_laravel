@@ -23,17 +23,13 @@
       <div class="container">
 	  <h1 class="display-4">National Enabling Programme</h1>
 	  <p class="lead">Lost and stolen database</p>
-	  <div class="alert alert-success" role="alert">
-	  	<h4 class="alert-heading">Login Successful!</h4>
-	  	<hr>
-	  	<p class="lead">
-	  	  <a class="btn btn-success btn-lg" href="dbview/" role="button">View Database</a>
-		  <a class="btn btn-success btn-lg" href="signin/" role="button">Edit Database</a>
-		  <a class="btn btn-success btn-lg" href={{ env('LOGOUT_URI') }} role="button">Log Out</a>
-		</p>
-	  </div>
-
-      </div>
+	  <p class="lead">Access Denied</p>
+	  <a class="btn btn-success btn-lg" href="/" role="button">Return Home</a>
+	  <?php
+		
+	  ?>
     </div>
+
+
   </body>
 </html>

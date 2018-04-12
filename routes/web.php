@@ -27,4 +27,16 @@ Route::get('/dbedit', array('as' => 'dbedit', function() {
   return view('DBEdit');
 }));
 
+Route::get('/accessdenied', array('as' => 'accessdenied', function() {
+	return view('AccessDenied');
+}));
+
+Route::get('/deleteSelected/{ids}', [ 'uses' =>'DBController@deleteItems']);
+
+Route::post('/dbinsert', 'DBController@insertItems');
+
+/*  array('as' => 'deleteSelected', function() {
+	return view('DeleteSelected');
+}));
+ */
 #Route::get('/dbedit', 'AuthController.php@printtoken')->name('dbedit');

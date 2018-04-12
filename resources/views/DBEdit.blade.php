@@ -10,6 +10,19 @@
 
 	<link rel="icon" href="https://lostandstolen-iampocusoutlook.msappproxy.net/images/favicon.ico" type="image/ico">
 
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+	<script>
+/* 	 $(document).ready(function() {
+
+	 $('#insert').hide(); //Initially form wil be hidden.
+
+	  $('#insertButton').click(function() {
+	   $('#insert').show();//Form shows on button click
+
+	   });
+	 });
+ */	</script>
+
     <title>Project Demo</title>
   </head>
   <body>
@@ -24,15 +37,92 @@
 	  <h1 class="display-4">National Enabling Programme</h1>
 	  <p class="lead">Lost and stolen database</p>
 	  <p class="lead">Edit page</p>
-	  <a class="btn btn-success btn-lg" href="/" role="button">Return Home</a>
-	  <p class="lead"><?=$_GET['token']?></p>
-	  <p class="lead"><?=$_GET['username']?></p>
-	  <p class="lead"><?=$_GET['prop']?></p>
 	  <?php
-		
+		if (isset($_GET['error'])) {
+			echo "<p>".$_GET["error"]."</p>";
+		}
 	  ?>
+	  <a class="btn btn-success btn-lg" href="/" role="button">Return Home</a>
+	  <a class="btn btn-danger btn-lg" role="button" id="deleteButton">Delete Selected</a>
+
+ 	  <script>
+	    $(document).ready(function() {
+			$('#someButton').click(function() {
+				var names = [];
+				$('#MyDiv input:checked').each(function() {
+					names.push(this.name);
+				});
+				// now names contains all of the names of checked checkboxes
+				// do something with it
+			});
+		});
+
+		function deleteSelected() {
+			alert("alert");
+			if (confirm("Are you sure?")) {
+				txt = "OK";
+			} else {
+				txt "no";
+			}
+		}
+	  </script>
+	      <div class="container-fluid">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+		    <th scope="col"></th>
+            <th scope="col">Item</th>
+			<th scope="col">Crime Reference Number</th>
+            <th scope="col">Description</th>
+            <th scope="col">Date Found</th>
+            <th scope="col">Location Found</th>
+          </tr>
+        </thead>
+        <tbody>
+		<form action="/dbinsert" method="post" id="insert">
+			<input type="hidden" name="_token" value="{{ csrf_token() }}">
+			<td><input type="submit" value="Add item"/></td>
+			<td><input type="text" name="item" size="10" placeholder="Item"></td>
+			<td/>
+			<td><input type="text" name="description" placeholder="Name"></td>
+			<td><input type="date" name="date found" placeholder="DD/MM/YYYY"></td>
+			<td><input type="text" name="location found" placeholder="Location"></td>
+		</form>
+		<div id="items">
+	  <?php
+		$items = DB::table('lostitem')->get();
+
+		foreach ($items->all() as $item)
+		{
+			echo "<tr>\n";
+			echo "<td><input type=\"checkbox\" name=".$item->id."></td>";
+			echo " <th scope='row'> ".$item->item."</th>\n";
+			echo " <td> ".$item->crn."</td>\n";
+			echo " <td> ".$item->description."</td>\n";
+			echo " <td> ".$item->date_found."</td>\n";
+			echo " <td> ".$item->location_found."</td>\n";
+			echo "</tr>\n";
+		}
+	  ?>
+	  </div>
+	          </tbody>
+      </table>
     </div>
 
+    </div>
 
+	<script>
+	$("#deleteButton").click(function() {
+				var n = $( "input:checked" );
+	  			var names = [];
+			$('input:checked').each(function() {
+				names.push(this.name);
+			});
+		if(confirm("Are you sure you want to delete these items?")) {
+			window.location = "/deleteSelected/" + names;
+		}
+	});
+    </script>
   </body>
+
 </html>

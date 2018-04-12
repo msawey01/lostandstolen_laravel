@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DBController;
+use App\Constants;
+use DB;
+use App\TableData;
 use Microsoft\Graph\Graph;
 use Microsoft\Graph\Model;
 
@@ -11,17 +15,12 @@ class AuthController extends Controller
 
 public function gettoken()
 {
-	echo '1';
   if (session_status() == PHP_SESSION_NONE) {
-	  echo '2';
     session_start();
   }
   // Authorization code should be in the "code" query param
-  echo '3';
   if (isset($_GET['code'])) {
-	  echo '4';
     // Check that state matches
-	print_r(array_keys($_SESSION));
     if (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth_state'])) {
       exit('State provided in redirect does not match expected value.');
     }
@@ -55,25 +54,20 @@ public function gettoken()
 		
 		$graph = new Graph();
 		$graph->setAccessToken($tokenCache->getAccessToken());
-		
-		$user = $graph->createRequest('GET', '/me')
-					  ->setReturnType(Model\User::class)
-					  ->execute();
 
-		$userName = $user->getDisplayName();
-		$properties = $user->getProperties();
-		$id = $properties['id'];
-		echo $id;
-		$request = '/myorganization/users/'.$properties['id'].'/checkMemberGroups';
-		echo $request;
+		$memberOf = $graph->createRequest('GET', '/me/memberOf')
+						  ->setReturnType(Model\Group::class)
+						  ->execute();
 
-//		$groupIds = $graph->createRequest('GET', '/myorganization/users/'.$properties['id'].'/checkMemberGroups')
-//			  ->setReturnType(Model\Group::class)
-//			  ->execute();
-
-#		echo $groupIds;
-		// Redirect back to mail page
-		return redirect()->route('dbedit', ['token' => $accessToken->getToken(), 'username' => $userName, 'prop' => $properties['id']]);
+		$groups = array_values($memberOf);
+		$groupIds = [];
+		foreach($groups as $group) {
+			if (($group->getProperties()['id'] === env('READ_WRITE_GROUP_ID')) ||
+				($group->getProperties()['id'] === env('READ_WRITE_ASSIGNED_ID'))) {
+				return redirect()->route('dbedit');
+			}
+		}
+		return redirect()->route('accessdenied');
     }
     catch (League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
       exit('ERROR getting tokens: '.$e->getMessage());
@@ -104,7 +98,6 @@ public function signin()
   $_SESSION['oauth_state'] = $oauthClient->getState();
 
   // Redirect to authorization endpoint
-  echo 'Authorization URL '.$authorizationUrl;
   header('Location: '.$authorizationUrl);
   exit();
 }
